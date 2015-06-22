@@ -9,13 +9,15 @@
 import UIKit
 
 class SlidingUITabBarController: UITabBarController {
+    
     enum PaneState {
         case Open
         case Closed
     }
+    
     var paneState: PaneState = PaneState.Closed
-    private var originalBounds = CGRect.zeroRect
-    private var originalCenter = CGPoint.zeroPoint
+    private var originalBounds: CGRect!
+    private var originalCenter: CGPoint!
     
     private var animator: UIDynamicAnimator!
     private var attachmentBehavior: UIAttachmentBehavior!
@@ -23,44 +25,34 @@ class SlidingUITabBarController: UITabBarController {
     private var paneBehavior: PaneBehavior?
     private var panGesture: UIPanGestureRecognizer!
     
+    private var menuTableViewController: UITableViewController!
+    
     private var targetPoint: CGPoint {
         get {
-            let size = self.view.bounds.size
-            let ret = self.paneState == PaneState.Open ? CGPoint(x: size.width / 2, y: 300) : CGPoint(x: size.width / 2, y: size.height - tabBar.frame.size.height / 2)
+            let size = view.bounds.size
+            let ret = paneState == PaneState.Open ? CGPoint(x: size.width / 2, y: 300) : CGPoint(x: size.width / 2, y: size.height - tabBar.frame.size.height / 2)
             return ret
         }
     }
-    
-    private var menuContainer: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
         panGesture = UIPanGestureRecognizer(target: self, action: "handleTabBarDrag:")
         panGesture.delegate = self
-        panGesture.cancelsTouchesInView = false
-        self.tabBar.addGestureRecognizer(panGesture)
-
+        panGesture.cancelsTouchesInView = true
+        tabBar.addGestureRecognizer(panGesture)
         
         animator = UIDynamicAnimator(referenceView: view)
         originalBounds = tabBar.frame
         originalCenter = tabBar.center
         
-        let frame = CGRect(origin: CGPoint(x: 0, y: view.frame.size.height), size: view.frame.size)
-        menuContainer = UIView(frame: frame)
+        let menuFrame = CGRect(origin: CGPoint(x: 0, y: view.frame.size.height), size: view.frame.size)
         
-        let tableViewController = MenuTableViewController()
-        tableViewController.view.frame = menuContainer.bounds
-        menuContainer.addSubview(tableViewController.view)
-        tableViewController.didMoveToParentViewController(self)
-        view.addSubview(menuContainer)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-        
+        menuTableViewController = MenuTableViewController()
+        view.addSubview(menuTableViewController.view)
+        menuTableViewController.view.frame = menuFrame
+        menuTableViewController.didMoveToParentViewController(self)
     }
     
     func animatePanelWithInitialVelocity(initialVelocity: CGPoint) {
@@ -70,7 +62,7 @@ class SlidingUITabBarController: UITabBarController {
         paneBehavior!.targetPoint = targetPoint
         paneBehavior!.velocity = initialVelocity
         //attach the menu container to the tab bar
-        let menuBehavior = UIAttachmentBehavior(item: tabBar, attachedToItem: menuContainer)
+        let menuBehavior = UIAttachmentBehavior(item: tabBar, attachedToItem: menuTableViewController.view)
         animator.addBehavior(menuBehavior)
         animator.addBehavior(paneBehavior!)
     }
@@ -90,10 +82,10 @@ class SlidingUITabBarController: UITabBarController {
         } else if sender.state == UIGestureRecognizerState.Began {
             //began dragging
             print("pan gesture began")
-            self.animator.removeAllBehaviors()
+            animator.removeAllBehaviors()
         } else if sender.state == UIGestureRecognizerState.Changed {
             print("pan gesture changed")
-            menuContainer.frame = CGRect(x: 0, y: tabBar.frame.origin.y + tabBar.frame.size.height, width: menuContainer.frame.width, height: menuContainer.frame.height)
+            menuTableViewController.view.frame = CGRect(x: 0, y: tabBar.frame.origin.y + tabBar.frame.size.height, width: menuTableViewController.view.frame.width, height: menuTableViewController.view.frame.height)
         }
         
     }
