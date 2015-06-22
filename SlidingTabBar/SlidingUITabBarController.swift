@@ -68,7 +68,7 @@ class SlidingUITabBarController: UITabBarController {
     }
     
     func handleTabBarDrag(sender: UIPanGestureRecognizer) {
-        let point = sender.translationInView(tabBar.superview)
+        let point = sender.translationInView(tabBar.superview!)
         tabBar.center = CGPoint(x: tabBar.center.x, y: tabBar.center.y + point.y)
         sender.setTranslation(CGPoint.zeroPoint, inView: tabBar.superview)
         if sender.state == UIGestureRecognizerState.Ended {
@@ -92,21 +92,15 @@ class SlidingUITabBarController: UITabBarController {
 }
 
 extension SlidingUITabBarController : UIGestureRecognizerDelegate {
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOfGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer.isKindOfClass(UITapGestureRecognizer.self) {
-            return true
-        }
-        return true
-    }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == panGesture && otherGestureRecognizer is UITapGestureRecognizer {
+            return false
+        }
         return true
     }
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailByGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer == panGesture {
-            return true
-        }
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOfGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
     }
 }
