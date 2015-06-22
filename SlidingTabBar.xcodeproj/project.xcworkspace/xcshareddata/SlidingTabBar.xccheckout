@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2941AD80-90BA-470E-9CFF-0229FD4C8237</string>
+	<key>IDESourceControlProjectName</key>
+	<string>project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1B35524EDA19599258810C971CE3777CBD130E59</key>
+		<string>https://git.uc.edu/MobileCats/TabBarSlidingMenu.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SlidingTabBar.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1B35524EDA19599258810C971CE3777CBD130E59</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://git.uc.edu/MobileCats/TabBarSlidingMenu.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>1B35524EDA19599258810C971CE3777CBD130E59</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1B35524EDA19599258810C971CE3777CBD130E59</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TabBarSlidingMenu</string>
+		</dict>
+	</array>
+</dict>
+</plist>
