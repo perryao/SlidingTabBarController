@@ -189,6 +189,36 @@ extension SlidingTabBarController {
         
         self.tabBar.selectedItem = self.tabBar.items?.first
         
+        configureConstraints()
+        
+    }
+    
+    func configureConstraints() {
+        tabBar.translatesAutoresizingMaskIntoConstraints = false
+        let tabBarLeadingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
+        let tabBarTrailingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0)
+        let tabBarBottomConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
+        
+        view.addConstraints([tabBarLeadingConstraint, tabBarTrailingConstraint, tabBarBottomConstraint])
+        
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        let contentViewTopConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
+        let contentViewLeadingConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
+        let contentViewTrailingConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0)
+        let contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: tabBar, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
+        
+        view.addConstraints([contentViewTopConstraint, contentViewLeadingConstraint, contentViewTrailingConstraint, contentViewBottomConstraint])
+        
+        let menuView = menuTableViewController.view
+        menuView.translatesAutoresizingMaskIntoConstraints = false
+        let menuViewTopConstaint = NSLayoutConstraint(item: menuView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: tabBar, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
+        let menuViewLeadingConstraint = NSLayoutConstraint(item: menuView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
+        let menuViewTrailingConstraint = NSLayoutConstraint(item: menuView, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0)
+        let menuViewHeightConstraint = NSLayoutConstraint(item: menuView, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 0)
+        
+        view.addConstraints([menuViewTopConstaint, menuViewLeadingConstraint, menuViewTrailingConstraint, menuViewHeightConstraint])
+        
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -205,10 +235,7 @@ extension SlidingTabBarController {
     
     override func viewWillTransitionToSize(size: CGSize,
         withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        UIView.animateWithDuration(0.3) { () -> Void in
-            self.tabBar.frame = CGRectMake(0, size.height - 49, size.width, 49)
-            self.contentView.frame = CGRectMake(0, 0, size.width, size.height - self.tabBar.frame.size.height)
-        }
+            
     }
 }
 
