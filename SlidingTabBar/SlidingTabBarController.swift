@@ -9,9 +9,7 @@
 import UIKit
 
 class SlidingTabBarSegue : UIStoryboardSegue {
-    override func perform() {
-        print("performed Segue")
-    }
+    override func perform() {}
 }
 
 private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
@@ -26,8 +24,8 @@ private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     }
     
     var paneState: PaneState = PaneState.Closed
-    var tabBar: UITabBar = UITabBar()
-    @IBInspectable private(set) var viewControllers: [UIViewController]?
+    private(set) var tabBar: UITabBar = UITabBar()
+    private(set) var viewControllers: [UIViewController]?
     private var moreViewControllers: [UIViewController]?
     
     private var originalBounds: CGRect!
@@ -42,6 +40,29 @@ private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     
     private var contentView: UIView = UIView()
     private var menuTableViewController: MenuTableViewController = MenuTableViewController()
+    
+    private var currentViewController: UIViewController! {
+        didSet {
+            if let _ = oldValue {
+                if currentViewController == oldValue {
+                    return
+                }
+            }
+            let oldViewController = oldValue
+            let newView = currentViewController.view
+            addChildViewController(currentViewController)
+            newView.frame = contentView.frame
+            contentView.addSubview(newView)
+            currentViewController.didMoveToParentViewController(self)
+            
+            guard let viewControllerToRemove = oldViewController else {
+                return
+            }
+            viewControllerToRemove.willMoveToParentViewController(nil)
+            viewControllerToRemove.view.removeFromSuperview()
+            viewControllerToRemove.removeFromParentViewController()
+        }
+    }
     
     
     private var targetPoint: CGPoint {
@@ -74,26 +95,11 @@ private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
         tabBar.setItems(tabBarItemsForViewControllers(), animated: animated)
         
         let viewController = self.viewControllers!.first
-        viewController?.view.frame = contentView.frame
-        contentView.addSubview(viewController!.view!)
-        viewController?.didMoveToParentViewController(self)
+        currentViewController = viewController
         menuTableViewController.menuItems = moreViewControllers
         if moreViewControllers?.count > 0 {
             configureDraggableTabBar()
         }
-    }
-    
-    func tabBarItemsForViewControllers() -> [UITabBarItem] {
-        var tabBarItems: [UITabBarItem] = []
-        for viewController in self.viewControllers! {
-            if let vcTabBarItem = viewController.tabBarItem {
-                tabBarItems.append(vcTabBarItem)
-            } else {
-                let tabBarItem = UITabBarItem(title: viewController.title, image: nil, selectedImage: nil)
-                tabBarItems.append(tabBarItem)
-            }
-        }
-        return tabBarItems
     }
     
     func addViewController(viewController: UIViewController, animated: Bool) {
@@ -119,15 +125,25 @@ private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
             
             return
         }
-        
     }
     
-    func loadStoryboardControllers() {
+    private func tabBarItemsForViewControllers() -> [UITabBarItem] {
+        var tabBarItems: [UITabBarItem] = []
+        for viewController in self.viewControllers! {
+            if let vcTabBarItem = viewController.tabBarItem {
+                tabBarItems.append(vcTabBarItem)
+            } else {
+                let tabBarItem = UITabBarItem(title: viewController.title, image: nil, selectedImage: nil)
+                tabBarItems.append(tabBarItem)
+            }
+        }
+        return tabBarItems
+    }
+    
+    private func loadStoryboardControllers() {
         guard let _ = storyboard else {
             return
         }
-        
-        
         TryCatch.tryIt({ () -> Void in
             //try
                 var counter = 0
@@ -142,39 +158,10 @@ private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
                 //finally
         }
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier?.rangeOfString("tab") != nil {
-            let destinationViewController = segue.destinationViewController
-            addViewController(destinationViewController, animated: false)
-        }
-    }
-    
 }
 
 //MARK: ViewController LifeCycle
 extension SlidingTabBarController {
-    
-    func setup() {
-        contentView.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height - 49)
-        contentView.backgroundColor = UIColor.blackColor()
-        view.addSubview(contentView)
-        
-        view.backgroundColor = UIColor.whiteColor()
-        tabBar.frame = CGRectMake(0, view.frame.size.height - 49, view.frame.size.width, 49)
-        tabBar.delegate = self
-        
-        view.addSubview(tabBar)
-    }
-    
-    func configureDraggableTabBar() {
-        animator = UIDynamicAnimator(referenceView: view)
-        
-        panGesture = UIPanGestureRecognizer(target: self, action: "handleTabBarDrag:")
-        panGesture.delegate = self
-        panGesture.cancelsTouchesInView = true
-        tabBar.addGestureRecognizer(panGesture)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -199,7 +186,55 @@ extension SlidingTabBarController {
         
     }
     
-    func configureConstraints() {
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize,
+        withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+            
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier?.rangeOfString("tab") != nil {
+            let destinationViewController = segue.destinationViewController
+            addViewController(destinationViewController, animated: false)
+        }
+    }
+    
+    private func setup() {
+        contentView.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height - 49)
+        contentView.backgroundColor = UIColor.blackColor()
+        view.addSubview(contentView)
+        
+        view.backgroundColor = UIColor.whiteColor()
+        tabBar.frame = CGRectMake(0, view.frame.size.height - 49, view.frame.size.width, 49)
+        tabBar.delegate = self
+        
+        view.addSubview(tabBar)
+    }
+    
+    private func configureDraggableTabBar() {
+        animator = UIDynamicAnimator(referenceView: view)
+        
+        panGesture = UIPanGestureRecognizer(target: self, action: "handleTabBarDrag:")
+        panGesture.delegate = self
+        panGesture.cancelsTouchesInView = true
+        tabBar.addGestureRecognizer(panGesture)
+    }
+}
+
+//MARK: Layout
+private extension SlidingTabBarController {
+    private func configureConstraints() {
         tabBar.translatesAutoresizingMaskIntoConstraints = false
         let tabBarLeadingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
         let tabBarTrailingConstraint = NSLayoutConstraint(item: tabBar, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0)
@@ -226,23 +261,6 @@ extension SlidingTabBarController {
         
         
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-    
-    override func viewWillTransitionToSize(size: CGSize,
-        withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-            
-    }
 }
 
 //MARK: UITabBarDelegate
@@ -259,21 +277,15 @@ extension SlidingTabBarController : UITabBarDelegate {
         guard let viewController = viewControllers?[selectedIndex] else {
             return
         }
-        
-        
-        viewController.view.frame = contentView.bounds
-        contentView.addSubview(viewController.view)
-        viewController.didMoveToParentViewController(self)
+        currentViewController = viewController
     }
 }
 
 //MARK: MenuTableViewController delegate
 extension SlidingTabBarController : MenuTableViewControllerDelegate {
-    func menuTableViewController(menuViewController: UIViewController, didSelectMenuItemAtIndexPath indexPath: NSIndexPath) {
+    private func menuTableViewController(menuViewController: UIViewController, didSelectMenuItemAtIndexPath indexPath: NSIndexPath) {
         let viewController = self.moreViewControllers![indexPath.row]
-        viewController.view.frame = contentView.frame
-        contentView.addSubview(viewController.view!)
-        viewController.didMoveToParentViewController(self)
+        currentViewController = viewController
         
         tabBar.selectedItem = nil
         if paneState == .Open {
@@ -352,7 +364,7 @@ extension SlidingTabBarController : UIGestureRecognizerDelegate {
     }
 }
 
-extension SlidingTabBarController {
+private extension SlidingTabBarController {
     private class MenuTableViewController: UITableViewController {
         
         var menuItems: [UIViewController]? {
