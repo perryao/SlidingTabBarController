@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2778A4441B39CE6300BF594E /* TryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 2778A4431B39CE6300BF594E /* TryCatch.m */; };
 		279E93751B34541C00A11CD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E93741B34541C00A11CD0 /* AppDelegate.swift */; };
 		279E93771B34541C00A11CD0 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E93761B34541C00A11CD0 /* FirstViewController.swift */; };
 		279E93791B34541C00A11CD0 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E93781B34541C00A11CD0 /* SecondViewController.swift */; };
@@ -18,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2778A4411B39CE6200BF594E /* SlidingTabBar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SlidingTabBar-Bridging-Header.h"; sourceTree = "<group>"; };
+		2778A4421B39CE6300BF594E /* TryCatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TryCatch.h; sourceTree = "<group>"; };
+		2778A4431B39CE6300BF594E /* TryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TryCatch.m; sourceTree = "<group>"; };
 		279E93711B34541C00A11CD0 /* SlidingTabBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlidingTabBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		279E93741B34541C00A11CD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		279E93761B34541C00A11CD0 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +73,9 @@
 				279E937F1B34541C00A11CD0 /* LaunchScreen.storyboard */,
 				279E93821B34541D00A11CD0 /* Info.plist */,
 				279E938A1B345C1900A11CD0 /* PaneBehavior.swift */,
+				2778A4421B39CE6300BF594E /* TryCatch.h */,
+				2778A4431B39CE6300BF594E /* TryCatch.m */,
+				2778A4411B39CE6200BF594E /* SlidingTabBar-Bridging-Header.h */,
 			);
 			path = SlidingTabBar;
 			sourceTree = "<group>";
@@ -99,6 +106,7 @@
 		279E93691B34541C00A11CD0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Mike Perry";
 				TargetAttributes = {
@@ -148,6 +156,7 @@
 				279E93891B34546900A11CD0 /* SlidingTabBarController.swift in Sources */,
 				279E938B1B345C1900A11CD0 /* PaneBehavior.swift in Sources */,
 				279E93771B34541C00A11CD0 /* FirstViewController.swift in Sources */,
+				2778A4441B39CE6300BF594E /* TryCatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,11 +269,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SlidingTabBar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.amperry.SlidingTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SlidingTabBar/SlidingTabBar-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -272,11 +284,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SlidingTabBar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.amperry.SlidingTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SlidingTabBar/SlidingTabBar-Bridging-Header.h";
 			};
 			name = Release;
 		};
