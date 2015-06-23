@@ -8,11 +8,17 @@
 
 import UIKit
 
+class SlidingTabBarSegue : UIStoryboardSegue {
+    override func perform() {
+        print("performed Segue")
+    }
+}
+
 private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     func menuTableViewController(menuViewController: UIViewController, didSelectMenuItemAtIndexPath indexPath: NSIndexPath)
 }
 
-class SlidingTabBarController: UIViewController {
+@IBDesignable class SlidingTabBarController: UIViewController {
     
     enum PaneState {
         case Open
@@ -21,7 +27,7 @@ class SlidingTabBarController: UIViewController {
     
     var paneState: PaneState = PaneState.Closed
     var tabBar: UITabBar = UITabBar()
-    private(set) var viewControllers: [UIViewController]?
+    @IBInspectable private(set) var viewControllers: [UIViewController]?
     private var moreViewControllers: [UIViewController]?
     
     private var originalBounds: CGRect!
@@ -55,18 +61,11 @@ class SlidingTabBarController: UIViewController {
     }
     
     func setViewControllers(viewControllers: [UIViewController]!, animated: Bool ) {
-        self.viewControllers = Array(viewControllers[0 ..< 5]) //we only ever show 5 tabs in the tab bar
-        moreViewControllers = Array(viewControllers[5 ..< viewControllers.count])
-        var tabBarItems: [UITabBarItem] = []
-        for viewController in self.viewControllers! {
-            if let vcTabBarItem = viewController.tabBarItem {
-                tabBarItems.append(vcTabBarItem)
-            } else {
-                let tabBarItem = UITabBarItem(title: viewController.title, image: nil, selectedImage: nil)
-                tabBarItems.append(tabBarItem)
-            }
+        self.viewControllers = Array(viewControllers[0 ..< (viewControllers.count >= 5 ? 5 : viewControllers.count)]) //we only ever show 5 tabs in the tab bar
+        if viewControllers.count > 5 {
+            moreViewControllers = Array(viewControllers[5 ..< viewControllers.count])
         }
-        tabBar.setItems(tabBarItems, animated: animated)
+        tabBar.setItems(tabBarItemsForViewControllers(), animated: animated)
         
         let viewController = self.viewControllers!.first
         viewController?.view.frame = contentView.frame
@@ -77,6 +76,74 @@ class SlidingTabBarController: UIViewController {
             configureDraggableTabBar()
         }
     }
+    
+    func tabBarItemsForViewControllers() -> [UITabBarItem] {
+        var tabBarItems: [UITabBarItem] = []
+        for viewController in self.viewControllers! {
+            if let vcTabBarItem = viewController.tabBarItem {
+                tabBarItems.append(vcTabBarItem)
+            } else {
+                let tabBarItem = UITabBarItem(title: viewController.title, image: nil, selectedImage: nil)
+                tabBarItems.append(tabBarItem)
+            }
+        }
+        return tabBarItems
+    }
+    
+    func addViewController(viewController: UIViewController, animated: Bool) {
+        guard let _ = viewControllers else {
+            self.setViewControllers([viewController], animated: animated)
+            return
+        }
+        if viewControllers?.count < 5 {
+            self.viewControllers?.append(viewController)
+        } else {
+            if let _ = moreViewControllers {
+                self.moreViewControllers?.append(viewController)
+            } else {
+                self.moreViewControllers = [viewController]
+                menuTableViewController.menuItems = self.moreViewControllers
+                configureDraggableTabBar()
+            }
+        }
+        
+        tabBar.setItems(tabBarItemsForViewControllers(), animated: animated)
+        
+        guard let _ = tabBar.selectedItem else {
+            
+            return
+        }
+        
+    }
+    
+    func loadStoryboardControllers() {
+        guard let _ = storyboard else {
+            return
+        }
+        
+        
+        TryCatch.tryIt({ () -> Void in
+            //try
+                var counter = 0
+                while (true) {
+                    self.performSegueWithIdentifier("tab\(counter)", sender: self)
+                    counter++
+                }
+            }, catchIt: { (exception) -> Void in
+                //catch
+                print("Caught \(exception) performingSegue")
+            }) { () -> Void in
+                //finally
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier?.rangeOfString("tab") != nil {
+            let destinationViewController = segue.destinationViewController
+            addViewController(destinationViewController, animated: false)
+        }
+    }
+    
 }
 
 //MARK: ViewController LifeCycle
@@ -117,6 +184,8 @@ extension SlidingTabBarController {
         view.addSubview(menuTableViewController.view)
         menuTableViewController.view.frame = menuFrame
         menuTableViewController.didMoveToParentViewController(self)
+        
+        loadStoryboardControllers()
         
         self.tabBar.selectedItem = self.tabBar.items?.first
         

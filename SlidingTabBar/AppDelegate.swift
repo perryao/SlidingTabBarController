@@ -16,35 +16,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        
-        
-        let vc1 = UIViewController()
-        vc1.view.backgroundColor = UIColor.yellowColor()
-        vc1.title = "First"
-        let vc2 = UIViewController()
-        vc2.view.backgroundColor = UIColor.orangeColor()
-        vc2.title = "Second"
-        let vc3 = UIViewController()
-        vc3.view.backgroundColor = UIColor.purpleColor()
-        vc3.title = "Third"
-        let vc4 = UIViewController()
-        vc4.view.backgroundColor = UIColor.blueColor()
-        vc4.title = "Fourth"
-        let vc5 = UIViewController()
-        vc5.view.backgroundColor = UIColor.magentaColor()
-        vc5.title = "Fifth"
-        let vc6 = UIViewController()
-        vc6.view.backgroundColor = UIColor.greenColor()
-        vc6.title = "Sixth"
-        let vc7 = UIViewController()
-        vc7.view.backgroundColor = UIColor.redColor()
-        vc7.title = "Seventh"
-        
-        let tabBarController = SlidingTabBarController()
-        tabBarController.setViewControllers([vc1, vc2, vc3, vc4, vc5, vc6, vc7], animated: false)
-        window?.rootViewController = tabBarController
-        window?.makeKeyAndVisible()
+//        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+//        
+//        
+//        let vc1 = UIViewController()
+//        vc1.view.backgroundColor = UIColor.yellowColor()
+//        vc1.title = "First"
+//        let vc2 = UIViewController()
+//        vc2.view.backgroundColor = UIColor.orangeColor()
+//        vc2.title = "Second"
+//        let vc3 = UIViewController()
+//        vc3.view.backgroundColor = UIColor.purpleColor()
+//        vc3.title = "Third"
+//        let vc4 = UIViewController()
+//        vc4.view.backgroundColor = UIColor.blueColor()
+//        vc4.title = "Fourth"
+//        let vc5 = UIViewController()
+//        vc5.view.backgroundColor = UIColor.magentaColor()
+//        vc5.title = "Fifth"
+//        let vc6 = UIViewController()
+//        vc6.view.backgroundColor = UIColor.greenColor()
+//        vc6.title = "Sixth"
+//        let vc7 = UIViewController()
+//        vc7.view.backgroundColor = UIColor.redColor()
+//        vc7.title = "Seventh"
+//        
+//        let tabBarController = SlidingTabBarController()
+//        tabBarController.setViewControllers([vc1, vc2, vc3, vc4, vc5, vc6, vc7], animated: false)
+//        window?.rootViewController = tabBarController
+//        window?.makeKeyAndVisible()
         
         return true
     }
