@@ -47,8 +47,14 @@ private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     private var targetPoint: CGPoint {
         get {
             let size = view.bounds.size
-            let ret = paneState == PaneState.Open ? CGPoint(x: size.width / 2, y: 300) : CGPoint(x: size.width / 2, y: size.height - tabBar.frame.size.height / 2)
+            let ret = paneState == PaneState.Open ? CGPoint(x: size.width / 2, y: verticalLimit + CGRectGetHeight(tabBar.frame)) : CGPoint(x: size.width / 2, y: size.height - tabBar.frame.size.height / 2)
             return ret
+        }
+    }
+    
+    private var verticalLimit: CGFloat {
+        get {
+            return view.frame.height * 0.55
         }
     }
     
@@ -267,7 +273,12 @@ extension SlidingTabBarController {
     
     func handleTabBarDrag(sender: UIPanGestureRecognizer) {
         let point = sender.translationInView(tabBar.superview!)
-        tabBar.center = CGPoint(x: tabBar.center.x, y: tabBar.center.y + point.y)
+        if hasExceededVerticalLimit(tabBar.center.y) {
+            tabBar.center.y = verticalLimit * logValueForYPosition(sender.locationInView(view).y)
+        } else {
+            tabBar.center.y += point.y
+        }
+        
         sender.setTranslation(CGPoint.zeroPoint, inView: tabBar.superview)
         if sender.state == UIGestureRecognizerState.Ended {
             //            print("pan gesture ended")
@@ -286,7 +297,18 @@ extension SlidingTabBarController {
             menuTableViewController.view.frame = CGRect(x: 0, y: tabBar.frame.origin.y + tabBar.frame.size.height, width: menuTableViewController.view.frame.width, height: menuTableViewController.view.frame.height)
         }
     }
-
+    
+    func hasExceededVerticalLimit(yPosition: CGFloat) -> Bool {
+        return yPosition < verticalLimit
+    }
+    
+    func logValueForYPosition(yPosition: CGFloat) -> CGFloat {
+        let difference = verticalLimit - yPosition
+        let position = verticalLimit + difference
+        let ratio = position / verticalLimit
+        let log10Value = log10(ratio)
+        return 1 - log10Value
+    }
 }
 
 extension SlidingTabBarController : UIGestureRecognizerDelegate {
