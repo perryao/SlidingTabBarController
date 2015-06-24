@@ -11,7 +11,7 @@ This is not production ready yet. I would like to get input and contributions fr
 
 
 # Demo
-![Demo Image](perryao.github.com/slidingtabbarcontroller/slidingTabBar.gif)
+![Demo Image](https://raw.githubusercontent.com/perryao/SlidingTabBarController/master/slidingTabBar.gif)
 
 
 # Requirements
