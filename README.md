@@ -11,7 +11,7 @@ This is not production ready yet. I would like to get input and contributions fr
 
 
 # Demo
-[[ https://www.dropbox.com/s/o7m5uq73id3nu0r/slidingTabBar.gif?dl=0 | height = 100px ]]
+![Alt text](https://www.dropbox.com/s/o7m5uq73id3nu0r/slidingTabBar.gif?dl=0 | height = 100px?raw=true "Optional Title")
 
 
 # Requirements
@@ -19,7 +19,7 @@ Xcode 7
 
 ### Special Thanks 
 
-To @aloisbarreras for implementing the "rubber band" effect
-To the folks at objc.io for their article on Interactive UIKit Dynamics(http://www.objc.io/issues/12-animations/interactive-animations/)
+To @aloisbarreras for implementing the "rubber band" effect and
+to the folks at objc.io for their article on Interactive UIKit Dynamics(http://www.objc.io/issues/12-animations/interactive-animations/)
 
 
