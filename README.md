@@ -11,7 +11,7 @@ This is not production ready yet. I would like to get input and contributions fr
 
 
 # Demo
-![alt tag](https://photos-4.dropbox.com/t/2/AAD5tLSCWLfXvKbD2m7rzUGtxpIvAGce--yoT6Pb-6ZZTA/12/101222176/jpeg/32x32/1/1435179600/0/2/slidingTabBar.gif/CKCOojAgASACKAEoAg/cS7GV1VPfZvZfgRJAMAI-RRN2srwDdRRmKuPTIJrubA?size=1280x960&size_mode=2)
+
 
 
 # Requirements
