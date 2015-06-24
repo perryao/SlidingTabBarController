@@ -11,7 +11,7 @@ This is not production ready yet. I would like to get input and contributions fr
 
 
 # Demo
-![Demo Image](https://raw.githubusercontent.com/perryao/SlidingTabBarController/master/slidingTabBar.gif){:height="640px" width="360px"}
+<img src="https://raw.githubusercontent.com/perryao/SlidingTabBarController/master/slidingTabBar.gif" style="width=360px;height=640px"/>
 
 
 # Requirements
