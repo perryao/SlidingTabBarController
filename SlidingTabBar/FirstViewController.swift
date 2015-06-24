@@ -12,7 +12,6 @@ class FirstViewController: UIViewController {
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        tabBarItem = UITabBarItem(title: "Home", image: UIImage(named: "home"), tag: 1)
     }
 
     override func viewDidLoad() {
@@ -24,11 +23,5 @@ class FirstViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    deinit {
-        print("Deinit home view controller")
-    }
-
-
 }
 

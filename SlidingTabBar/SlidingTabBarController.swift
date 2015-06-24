@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Custom segue for setting up tab controllers in storyboard
 class SlidingTabBarSegue : UIStoryboardSegue {
     override func perform() {}
 }
@@ -16,7 +17,12 @@ private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     func menuTableViewController(menuViewController: UIViewController, didSelectMenuItemAtIndexPath indexPath: NSIndexPath)
 }
 
-@IBDesignable class SlidingTabBarController: UIViewController {
+/**
+* @discussion: A custom tab bar controller, which manages a tab bar as well as a hidden
+*menu below the tab bar for when there are more than 5 view controllers to display.
+*The menu is accessible via a pan gesture on the tab bar
+*/
+class SlidingTabBarController: UIViewController {
     
     enum PaneState {
         case Open
@@ -25,8 +31,8 @@ private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     
     var paneState: PaneState = PaneState.Closed
     private(set) var tabBar: UITabBar = UITabBar()
-    private(set) var viewControllers: [UIViewController]?
-    private var moreViewControllers: [UIViewController]?
+    private(set) var viewControllers: [UIViewController]? //up to 5 view controllers can be stored here
+    private var moreViewControllers: [UIViewController]? //the rest will be stored here
     
     private var originalBounds: CGRect!
     private var originalCenter: CGPoint!
@@ -43,21 +49,24 @@ private protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     
     private var currentViewController: UIViewController! {
         didSet {
-            if let _ = oldValue {
-                if currentViewController == oldValue {
-                    return
-                }
+            //if the old value is equal to the new value, just return
+            if let oldValue = oldValue where currentViewController == oldValue {
+                return
             }
-            let oldViewController = oldValue
+            
+            //a new view controller has been set so swap out the content view
             let newView = currentViewController.view
             addChildViewController(currentViewController)
             newView.frame = contentView.frame
             contentView.addSubview(newView)
             currentViewController.didMoveToParentViewController(self)
             
+            
+            let oldViewController = oldValue
             guard let viewControllerToRemove = oldViewController else {
                 return
             }
+            //remove the previous view from the content view
             viewControllerToRemove.willMoveToParentViewController(nil)
             viewControllerToRemove.view.removeFromSuperview()
             viewControllerToRemove.removeFromParentViewController()
@@ -246,7 +255,7 @@ private extension SlidingTabBarController {
         let contentViewTopConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
         let contentViewLeadingConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
         let contentViewTrailingConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutAttribute.Trailing, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0)
-        let contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: tabBar, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
+        let contentViewBottomConstraint = NSLayoutConstraint(item: contentView, attribute: NSLayoutAttribute.Bottom, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Bottom, multiplier: 1, constant: 0)
         
         view.addConstraints([contentViewTopConstraint, contentViewLeadingConstraint, contentViewTrailingConstraint, contentViewBottomConstraint])
         
@@ -377,12 +386,6 @@ private extension SlidingTabBarController {
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            
-            // Uncomment the following line to preserve selection between presentations
-            // self.clearsSelectionOnViewWillAppear = false
-            
-            // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-            // self.navigationItem.rightBarButtonItem = self.editButtonItem()
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
