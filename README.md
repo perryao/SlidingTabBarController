@@ -11,7 +11,7 @@ This is not production ready yet. I would like to get input and contributions fr
 
 
 # Demo
-![Alt text](https://www.dropbox.com/s/o7m5uq73id3nu0r/slidingTabBar.gif?dl=0?raw=true "Optional Title")
+![Alt text](https://www.dropbox.com/s/o7m5uq73id3nu0r/slidingTabBar.gif?dl=0 "Optional Title")
 
 
 # Requirements
