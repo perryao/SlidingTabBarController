@@ -82,8 +82,8 @@ class SlidingTabbedMenuView: UIView {
                 tracker = frame.origin.y
                 delegate?.tabbedMenuViewDidBeginDragging(self)
             case .Changed:
+                tracker! += translation.y
                 if hasExceededVerticalLimit(frame.origin.y) {
-                    tracker! += translation.y
                     let logValue = logValueForYPosition(tracker)
                     frame.origin.y = verticalLimit * logValue
                 } else {
