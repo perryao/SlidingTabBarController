@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2721E6671B3B5ED300916F7A /* SlidingTabbedMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2721E6661B3B5ED300916F7A /* SlidingTabbedMenuView.swift */; };
 		2778A4441B39CE6300BF594E /* TryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 2778A4431B39CE6300BF594E /* TryCatch.m */; };
 		279E93751B34541C00A11CD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E93741B34541C00A11CD0 /* AppDelegate.swift */; };
 		279E93771B34541C00A11CD0 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279E93761B34541C00A11CD0 /* FirstViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2721E6661B3B5ED300916F7A /* SlidingTabbedMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlidingTabbedMenuView.swift; sourceTree = "<group>"; };
 		2778A4411B39CE6200BF594E /* SlidingTabBar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SlidingTabBar-Bridging-Header.h"; sourceTree = "<group>"; };
 		2778A4421B39CE6300BF594E /* TryCatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TryCatch.h; sourceTree = "<group>"; };
 		2778A4431B39CE6300BF594E /* TryCatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TryCatch.m; sourceTree = "<group>"; };
@@ -45,6 +47,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2721E6681B3BA14F00916F7A /* SlidingTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				279E93881B34546900A11CD0 /* SlidingTabBarController.swift */,
+				2721E6661B3B5ED300916F7A /* SlidingTabbedMenuView.swift */,
+				279E938A1B345C1900A11CD0 /* PaneBehavior.swift */,
+				2778A4421B39CE6300BF594E /* TryCatch.h */,
+				2778A4431B39CE6300BF594E /* TryCatch.m */,
+			);
+			name = SlidingTabBar;
+			sourceTree = "<group>";
+		};
 		279E93681B34541C00A11CD0 = {
 			isa = PBXGroup;
 			children = (
@@ -64,17 +78,14 @@
 		279E93731B34541C00A11CD0 /* SlidingTabBar */ = {
 			isa = PBXGroup;
 			children = (
+				2721E6681B3BA14F00916F7A /* SlidingTabBar */,
 				279E93741B34541C00A11CD0 /* AppDelegate.swift */,
-				279E93881B34546900A11CD0 /* SlidingTabBarController.swift */,
 				279E93761B34541C00A11CD0 /* FirstViewController.swift */,
 				279E93781B34541C00A11CD0 /* SecondViewController.swift */,
 				279E937A1B34541C00A11CD0 /* Main.storyboard */,
 				279E937D1B34541C00A11CD0 /* Assets.xcassets */,
 				279E937F1B34541C00A11CD0 /* LaunchScreen.storyboard */,
 				279E93821B34541D00A11CD0 /* Info.plist */,
-				279E938A1B345C1900A11CD0 /* PaneBehavior.swift */,
-				2778A4421B39CE6300BF594E /* TryCatch.h */,
-				2778A4431B39CE6300BF594E /* TryCatch.m */,
 				2778A4411B39CE6200BF594E /* SlidingTabBar-Bridging-Header.h */,
 			);
 			path = SlidingTabBar;
@@ -157,6 +168,7 @@
 				279E938B1B345C1900A11CD0 /* PaneBehavior.swift in Sources */,
 				279E93771B34541C00A11CD0 /* FirstViewController.swift in Sources */,
 				2778A4441B39CE6300BF594E /* TryCatch.m in Sources */,
+				2721E6671B3B5ED300916F7A /* SlidingTabbedMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,6 +26,7 @@ class PaneBehavior: UIDynamicBehavior {
     }
     
     private var item: UIDynamicItem!
+    
     private var itemBehavior: UIDynamicItemBehavior!
     private var attachmentBehavior: UIAttachmentBehavior?
     
