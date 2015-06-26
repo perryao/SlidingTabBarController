@@ -16,7 +16,7 @@ protocol SlidingTabbedMenuViewDelegate : NSObjectProtocol {
 class SlidingTabbedMenuView: UIView {
 
     weak var delegate: SlidingTabbedMenuViewDelegate?
-    
+    private var tracker: CGFloat!
     
     var tabBar: UITabBar = UITabBar()
     var tableView: UITableView = UITableView()
@@ -76,14 +76,15 @@ class SlidingTabbedMenuView: UIView {
     
     func didPan(recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translationInView(superview)
-        let locationInView = recognizer.locationInView(superview)
         
         switch recognizer.state {
             case .Began:
+                tracker = frame.origin.y
                 delegate?.tabbedMenuViewDidBeginDragging(self)
             case .Changed:
                 if hasExceededVerticalLimit(frame.origin.y) {
-                    let logValue = logValueForYPosition(locationInView.y)
+                    tracker! += translation.y
+                    let logValue = logValueForYPosition(tracker)
                     frame.origin.y = verticalLimit * logValue
                 } else {
                     frame.origin.y += translation.y
